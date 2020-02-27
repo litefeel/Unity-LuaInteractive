@@ -1,0 +1,19 @@
+{
+    "name": "com.litefeel.luainteractive",
+    "displayName": "Lua Interactive",
+    "version": "1.0.0",
+    "unity": "2018.3",
+    "description": "LuaInteractive is just perfect Unity editor plugin to excute lua on play mode.",
+    "keywords": [
+        "Lua",
+        "Interactive",
+        "Tools"
+    ],
+    "author": {
+        "name": "litefeel",
+        "email": "litefeel@gmial.com",
+        "url": "https://www.litefeel.com"
+    },
+    "category": "Tools",
+    "dependencies": {}
+}
