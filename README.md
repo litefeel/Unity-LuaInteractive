@@ -32,7 +32,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 2. Input a lua file path
 3. Press `Create defualt lua script`
 4. Play game
-5. Press Ctrl + R
+5. Press Ctrl + Shift + R
 6. Excute the lua script
 
 
