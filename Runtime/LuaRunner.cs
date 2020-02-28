@@ -76,16 +76,16 @@ namespace litefeel.LuaInteractive
         {
             if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl))
             {
-                if (Settings.AutoClearLog == Settings.ClearLog.Previous)
+                if (Settings.AutoClearLog == ClearLogMode.Previous)
                     ClearLog();
-                var path = Settings.LuaPath;
+                var path = Settings.ScriptPath;
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     var content = File.ReadAllText(path);
                     DoString?.Invoke(luaState, new object[] { content, null });
                 }
 
-                if (Settings.AutoClearLog == Settings.ClearLog.All)
+                if (Settings.AutoClearLog == ClearLogMode.All)
                     ClearLog();
             }
         }

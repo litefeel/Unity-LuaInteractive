@@ -13,7 +13,7 @@ namespace litefeel.LuaInteractive.Editor
 #if UNITY_2018_3_OR_NEWER
         private class MyPrefSettingsProvider : SettingsProvider
         {
-            public MyPrefSettingsProvider(string path, SettingsScope scopes = SettingsScope.User)
+            public MyPrefSettingsProvider(string path, SettingsScope scopes = SettingsScope.Project)
             : base(path, scopes)
             { }
 
@@ -26,24 +26,24 @@ namespace litefeel.LuaInteractive.Editor
         [SettingsProvider]
         static SettingsProvider NewPreferenceItem()
         {
-            return new MyPrefSettingsProvider("Preferences/Lua Interactive");
+            return new MyPrefSettingsProvider("Project/Lua Interactive");
         }
 #else
         [PreferenceItem("Lua Interactive")]
 #endif
         public static void OnGUI()
         {
-            Settings.AutoClearLog = (Settings.ClearLog)EditorGUILayout.EnumPopup("Auto Clear Log", Settings.AutoClearLog);
+            Settings.AutoClearLog = (ClearLogMode)EditorGUILayout.EnumPopup("Auto Clear Log", Settings.AutoClearLog);
 
             EditorGUILayout.BeginHorizontal();
-            Settings.LuaPath = EditorGUILayout.TextField("Lua Script File", Settings.LuaPath);
+            Settings.ScriptPath = EditorGUILayout.TextField("Lua Script File", Settings.ScriptPath);
             if (GUILayout.Button("Browse", EditorStyles.miniButton, GUILayout.Width(80)))
                 BrowseScriptFile();
             EditorGUILayout.EndHorizontal();
-            if (!string.IsNullOrEmpty(Settings.LuaPath) && !File.Exists(Settings.LuaPath))
+            if (!string.IsNullOrEmpty(Settings.ScriptPath) && !File.Exists(Settings.ScriptPath))
                 EditorGUILayout.HelpBox("The file not exits", MessageType.Warning);
 
-            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(Settings.LuaPath)))
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(Settings.ScriptPath)))
             {
                 if (GUILayout.Button("Create defualt lua script"))
                     CreateDefaultScript();
@@ -64,13 +64,13 @@ namespace litefeel.LuaInteractive.Editor
                     folder.MakeRelativeUri(file)
                         .ToString()
                     );
-                Settings.LuaPath = relativePath;
+                Settings.ScriptPath = relativePath;
             }
         }
 
         private static void CreateDefaultScript()
         {
-            var path = Settings.LuaPath;
+            var path = Settings.ScriptPath;
             if (string.IsNullOrEmpty(path)) return;
 
             if (File.Exists(path))

@@ -1,54 +1,71 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 namespace litefeel.LuaInteractive.Editor
 {
+    public enum ClearLogMode
+    {
+        None,
+        Previous,
+        All,
+    }
+    public class SettingData
+    {
+        public string scriptPath;
+        public ClearLogMode clearLogMode;
+    }
     public static class Settings
     {
-        private const string AutoClearLogKey = "litefeel.LuaInteractive.AutoClearLog";
-        private const string LuaPathKey = "litefeel.LuaInteractive.LuaPath";
-
-        public enum ClearLog
-        {
-            None,
-            Previous,
-            All,
-        }
-
+        const string SettingPath = "ProjectSettings/LuaInteractive.json";
+        private static SettingData settingData;
 
         [InitializeOnLoadMethod]
         private static void Init()
         {
-            _AutoClearLog = (ClearLog)EditorPrefs.GetInt(AutoClearLogKey, 0);
-            LuaPath = EditorPrefs.GetString(LuaPathKey, "");
+            settingData = new SettingData();
+            LoadData();
         }
 
-        private static ClearLog _AutoClearLog;
-        public static ClearLog AutoClearLog
+        public static ClearLogMode AutoClearLog
         {
-            get { return _AutoClearLog; }
+            get { return settingData.clearLogMode; }
             set
             {
-                if (value != _AutoClearLog)
+                if (value != settingData.clearLogMode)
                 {
-                    _AutoClearLog = value;
-                    EditorPrefs.SetInt(AutoClearLogKey, (int)value);
+                    settingData.clearLogMode = value;
+                    SaveData();
                 }
             }
         }
 
-        private static string _LuaPath;
-        public static string LuaPath
+        public static string ScriptPath
         {
-            get { return _LuaPath; }
+            get { return settingData.scriptPath; }
             set
             {
-                if (value != _LuaPath)
+                if (value != settingData.scriptPath)
                 {
-                    _LuaPath = value;
-                    EditorPrefs.SetString(LuaPathKey, value);
+                    settingData.scriptPath = value;
+                    SaveData();
                 }
             }
+        }
+
+        private static void LoadData()
+        {
+            try
+            {
+                var data = File.ReadAllText(SettingPath);
+                JsonUtility.FromJsonOverwrite(data, settingData);
+            }
+            catch { }
+        }
+        private static void SaveData()
+        {
+            var json = JsonUtility.ToJson(settingData);
+            File.WriteAllText(SettingPath, json);
         }
     }
 }

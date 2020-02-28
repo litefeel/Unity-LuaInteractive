@@ -28,7 +28,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 
 ## How to use?
 
-1. Select `Edit > Preferences… > Lua Interactive` from the menu
+1. Select `Edit > Project Settings… > Lua Interactive` from the menu
 2. Input a lua file path
 3. Press `Create defualt lua script`
 4. Play game
