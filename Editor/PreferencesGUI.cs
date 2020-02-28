@@ -33,12 +33,38 @@ namespace litefeel.LuaInteractive.Editor
 #endif
         public static void OnGUI()
         {
-            Settings.AutoClearLog = EditorGUILayout.ToggleLeft("Auto Clear Log", Settings.AutoClearLog);
+            Settings.AutoClearLog = (Settings.ClearLog)EditorGUILayout.EnumPopup("Auto Clear Log", Settings.AutoClearLog);
+
+            EditorGUILayout.BeginHorizontal();
             Settings.LuaPath = EditorGUILayout.TextField("Lua Script File", Settings.LuaPath);
-            using(new EditorGUI.DisabledScope(string.IsNullOrEmpty(Settings.LuaPath)))
+            if (GUILayout.Button("Browse", EditorStyles.miniButton, GUILayout.Width(80)))
+                BrowseScriptFile();
+            EditorGUILayout.EndHorizontal();
+            if (!string.IsNullOrEmpty(Settings.LuaPath) && !File.Exists(Settings.LuaPath))
+                EditorGUILayout.HelpBox("The file not exits", MessageType.Warning);
+
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(Settings.LuaPath)))
             {
                 if (GUILayout.Button("Create defualt lua script"))
                     CreateDefaultScript();
+            }
+        }
+
+        private static void BrowseScriptFile()
+        {
+            var root = Directory.GetCurrentDirectory();
+            var path = EditorUtility.SaveFilePanel("Save File", root, "", "lua");
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                Uri file = new Uri(path);
+                Uri folder = new Uri(root + "/");
+                string relativePath =
+                Uri.UnescapeDataString(
+                    folder.MakeRelativeUri(file)
+                        .ToString()
+                    );
+                Settings.LuaPath = relativePath;
             }
         }
 
@@ -49,7 +75,7 @@ namespace litefeel.LuaInteractive.Editor
 
             if (File.Exists(path))
             {
-                if(!EditorUtility.DisplayDialog("Save File",
+                if (!EditorUtility.DisplayDialog("Save File",
                     $"the file already exists, do you want to overwrite it?\n{path}",
                     "Overwrite", "Cancel"))
                 {

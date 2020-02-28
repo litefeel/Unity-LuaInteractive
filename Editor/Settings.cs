@@ -8,16 +8,23 @@ namespace litefeel.LuaInteractive.Editor
         private const string AutoClearLogKey = "litefeel.LuaInteractive.AutoClearLog";
         private const string LuaPathKey = "litefeel.LuaInteractive.LuaPath";
 
+        public enum ClearLog
+        {
+            None,
+            Previous,
+            All,
+        }
+
 
         [InitializeOnLoadMethod]
         private static void Init()
         {
-            _AutoClearLog = EditorPrefs.GetBool(AutoClearLogKey, false);
+            _AutoClearLog = (ClearLog)EditorPrefs.GetInt(AutoClearLogKey, 0);
             LuaPath = EditorPrefs.GetString(LuaPathKey, "");
         }
 
-        private static bool _AutoClearLog;
-        public static bool AutoClearLog
+        private static ClearLog _AutoClearLog;
+        public static ClearLog AutoClearLog
         {
             get { return _AutoClearLog; }
             set
@@ -25,7 +32,7 @@ namespace litefeel.LuaInteractive.Editor
                 if (value != _AutoClearLog)
                 {
                     _AutoClearLog = value;
-                    EditorPrefs.SetBool(AutoClearLogKey, value);
+                    EditorPrefs.SetInt(AutoClearLogKey, (int)value);
                 }
             }
         }

@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
 using litefeel.LuaInteractive.Editor;
-#endif
+
 using System;
 using System.Collections;
 using System.IO;
@@ -55,7 +55,6 @@ namespace litefeel.LuaInteractive
             return null;
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             if (GetLuaState != null && DoString != null)
@@ -73,32 +72,31 @@ namespace litefeel.LuaInteractive
             luaState = GetLuaState.Invoke(null, args);
         }
 
-#if UNITY_EDITOR
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl))
             {
+                if (Settings.AutoClearLog == Settings.ClearLog.Previous)
+                    ClearLog();
                 var path = Settings.LuaPath;
-                if(!string.IsNullOrEmpty(path) && File.Exists(path))
+                if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     var content = File.ReadAllText(path);
                     DoString?.Invoke(luaState, new object[] { content, null });
                 }
-//                const string chunk =
-//    @"package.loaded['mydebug'] = nil
-//require('mydebug')";
-//                DoString?.Invoke(luaState, new object[] { chunk, null });
-                //luaState.DoString(chunk);
 
-                if (Settings.AutoClearLog)
-                {
-                    Assembly assembly = Assembly.GetAssembly(typeof(SceneView));
-                    Type type = assembly.GetType("UnityEditor.LogEntries");
-                    MethodInfo method = type.GetMethod("Clear");
-                    method.Invoke(new object(), null);
-                }
+                if (Settings.AutoClearLog == Settings.ClearLog.All)
+                    ClearLog();
             }
         }
-#endif
+
+        private void ClearLog()
+        {
+            Assembly assembly = Assembly.GetAssembly(typeof(SceneView));
+            Type type = assembly.GetType("UnityEditor.LogEntries");
+            MethodInfo method = type.GetMethod("Clear");
+            method.Invoke(new object(), null);
+        }
     }
 }
+#endif
