@@ -1,4 +1,4 @@
-# Rename Tools
+# LuaInteractive
 
 
 [![](https://img.shields.io/github/release/litefeel/Unity-LuaInteractive.svg?label=latest%20version)](https://github.com/litefeel/Unity-LuaInteractive/releases)
@@ -14,17 +14,48 @@
 - No runtime resources required
 - No scripting required
 
+
+
 ## Install
+
+#### Using npm (Ease upgrade in Package Manager UI)**Recommend**
+
+Find the manifest.json file in the Packages folder of your project and edit it to look like this:
+``` js
+{
+  "scopedRegistries": [
+    {
+      "name": "My Registry",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.litefeel"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.litefeel.luainteractive": "1.1.0",
+    ...
+  }
+}
+```
+
+#### Using git
 
 Find the manifest.json file in the Packages folder of your project and edit it to look like this:
 ``` js
 {
   "dependencies": {
-    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git",
+    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git#1.1.0",
     ...
   }
 }
 ```
+
+#### Using .zip file (for Unity 5.0+)
+
+1. Download `Source code` from [Releases](https://github.com/litefeel/Unity-LuaInteractive/releases)
+2. Extract the package into your Unity project
+
 
 ## How to use?
 
@@ -42,5 +73,5 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 - Send email to me: <litefeel@gmail.com>
 
 
-[RenameTools]: https://github.com/litefeel/Unity-LuaInteractive (RenameTools)
-[issues]: https://github.com/litefeel/Unity-LuaInteractive/issues (RenameTools issues)
+[LuaInteractive]: https://github.com/litefeel/Unity-LuaInteractive (LuaInteractive)
+[issues]: https://github.com/litefeel/Unity-LuaInteractive/issues (LuaInteractive issues)
