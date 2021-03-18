@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityScript.Lang;
 
 
 namespace litefeel.LuaInteractive.Editor
@@ -76,7 +74,7 @@ namespace litefeel.LuaInteractive.Editor
             if (File.Exists(path))
             {
                 if (!EditorUtility.DisplayDialog("Save File",
-                    $"the file already exists, do you want to overwrite it?\n{path}",
+                    "the file already exists, do you want to overwrite it?\n" + path,
                     "Overwrite", "Cancel"))
                 {
                     return;
