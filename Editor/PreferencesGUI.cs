@@ -81,8 +81,19 @@ namespace litefeel.LuaInteractive.Editor
                 }
             }
 
-            var srcfile = "Packages/com.litefeel.luainteractive/Editor/defaultlua.lua";
+            var srcfile = GetDefultLuaFile();
             File.Copy(srcfile, path, true);
+        }
+
+        /// <summary>
+        /// 获得调用函数的类名和方法。
+        /// </summary>
+        /// <returns></returns>
+        public static string GetDefultLuaFile()
+        {
+            var st = new System.Diagnostics.StackTrace(1, true).GetFrame(0);
+            var dir = System.IO.Path.GetDirectoryName(st.GetFileName());
+            return Path.Combine(dir, "defaultlua.lua");
         }
     }
 }
