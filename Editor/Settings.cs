@@ -17,14 +17,27 @@ namespace litefeel.LuaInteractive.Editor
     }
     public static class Settings
     {
-        const string SettingPath = "ProjectSettings/LuaInteractive.json";
+        const string OldPath = "ProjectSettings/LuaInteractive.json";
+        const string SettingPath = "UserSettings/LuaInteractive.json";
         private static SettingData settingData;
 
         [InitializeOnLoadMethod]
         private static void Init()
         {
             settingData = new SettingData();
+            MoveSettingFile();
             LoadData();
+        }
+
+        private static void MoveSettingFile()
+        {
+            if (File.Exists(OldPath) && !File.Exists(SettingPath))
+            {
+                var dir = Path.GetDirectoryName(SettingPath);
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+                File.Move(OldPath, SettingPath);
+            }
         }
 
         public static ClearLogMode AutoClearLog

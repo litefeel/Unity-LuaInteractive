@@ -1,11 +1,11 @@
+#if UNITY_EDITOR || LUA_RUNNER_RUNTIME
 #if UNITY_EDITOR
 using litefeel.LuaInteractive.Editor;
-
+#endif
 using System;
 using System.Collections;
 using System.IO;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 
 namespace litefeel.LuaInteractive
@@ -34,6 +34,7 @@ namespace litefeel.LuaInteractive
             else if (IsXLua(out GetLuaState, out DoString))
                 luaType = LuaType.XLua;
 
+            //Debug.LogError("LuaRunner.Init");
             var debuger = new GameObject("_LuaRunner");
             debuger.hideFlags = HideFlags.DontSave;
             DontDestroyOnLoad(debuger);
@@ -50,6 +51,7 @@ namespace litefeel.LuaInteractive
 
         private IEnumerator WaitLuaState()
         {
+            //Debug.LogError("LuaRunner.WaitLuaState");
             if (luaType == LuaType.ToLua)
             {
                 var args = new object[] { IntPtr.Zero };
@@ -62,7 +64,7 @@ namespace litefeel.LuaInteractive
             }
             else if (luaType == LuaType.XLua)
             {
-                var args = new object[] {};
+                var args = new object[] { };
                 while (GetLuaState.Invoke(null, args) == null)
                     yield return null;
 
@@ -74,36 +76,51 @@ namespace litefeel.LuaInteractive
 
         private void Update()
         {
+#if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl))
+#else
+            if (Input.GetKeyDown(KeyCode.F8))
+#endif
             {
+#if UNITY_EDITOR
                 if (Settings.AutoClearLog == ClearLogMode.Previous)
                     ClearLog();
                 var path = Settings.ScriptPath;
+#else
+                var path = Path.Combine(Application.persistentDataPath, "_luarunner.lua");
+#endif
+
+                //Debug.LogError("LuaRunner.Update ");
                 if (luaState != null && !string.IsNullOrEmpty(path) && File.Exists(path))
                 {
+                    
                     var content = File.ReadAllText(path);
-                    switch(luaType)
+                    switch (luaType)
                     {
                         case LuaType.ToLua:
                             DoString.Invoke(luaState, new object[] { content, null });
                             break;
                         case LuaType.XLua:
                             DoString.Invoke(luaState, new object[] { content, null, null });
+                            Debug.LogError("LuaRunner.Update xlua");
                             break;
                     }
                 }
-
+#if UNITY_EDITOR
                 if (Settings.AutoClearLog == ClearLogMode.All)
                     ClearLog();
+#endif
             }
         }
 
         private void ClearLog()
         {
-            Assembly assembly = Assembly.GetAssembly(typeof(SceneView));
+#if UNITY_EDITOR
+            Assembly assembly = Assembly.GetAssembly(typeof(UnityEditor.SceneView));
             Type type = assembly.GetType("UnityEditor.LogEntries");
             MethodInfo method = type.GetMethod("Clear");
             method.Invoke(new object(), null);
+#endif
         }
 
         private static bool IsToLua(out MethodInfo GetLuaState, out MethodInfo DoString)
