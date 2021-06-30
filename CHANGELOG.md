@@ -1,3 +1,8 @@
+
+#### v1.2.0 - 2021-06-30
+- Change setting file From `ProjectSettings/LuaInteractive.json` to `UserSettings/LuaInteractive.json`
+- Support run lua script on Android
+
 #### v1.1.1 - 2021-03-26
 - Fix the error when creating the defaultlua file when the plugin is located in the Assets directory
 

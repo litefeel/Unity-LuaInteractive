@@ -33,7 +33,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
     }
   ],
   "dependencies": {
-    "com.litefeel.luainteractive": "1.1.1",
+    "com.litefeel.luainteractive": "1.2.0",
     ...
   }
 }
@@ -45,7 +45,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 ``` js
 {
   "dependencies": {
-    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git#1.1.1",
+    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git#1.2.0",
     ...
   }
 }
@@ -59,6 +59,8 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 
 ## How to use?
 
+#### Using on Unity Editor
+
 1. Select `Edit > Project Settings… > Lua Interactive` from the menu
 2. Input a lua file path
 3. Press `Create defualt lua script`
@@ -66,6 +68,12 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 5. Press Ctrl + Shift + R
 6. Excute the lua script
 
+#### Using On Android
+
+1. setting like `Using on Unity Editor`
+2. Add custom macro `LUA_RUNNER_RUNTIME`
+3. connect device with adb
+4. Excute the python script `LuaInteractive/Editor/Script~/runOnAndroid.py`
 
 ## Support
 
