@@ -33,7 +33,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
     }
   ],
   "dependencies": {
-    "com.litefeel.luainteractive": "1.2.0",
+    "com.litefeel.luainteractive": "1.2.1",
     ...
   }
 }
@@ -45,7 +45,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 ``` js
 {
   "dependencies": {
-    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git#1.2.0",
+    "com.litefeel.luainteractive": "https://github.com/litefeel/Unity-LuaInteractive.git#1.2.1",
     ...
   }
 }

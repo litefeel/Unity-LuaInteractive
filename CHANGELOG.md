@@ -1,3 +1,5 @@
+#### v1.2.1 - 2021-07-02
+- Fixed the setting file cannot be saved below unity 2020
 
 #### v1.2.0 - 2021-06-30
 - Change setting file From `ProjectSettings/LuaInteractive.json` to `UserSettings/LuaInteractive.json`
