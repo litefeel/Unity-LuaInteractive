@@ -77,6 +77,9 @@ namespace litefeel.LuaInteractive.Editor
         }
         private static void SaveData()
         {
+            var dir = Path.GetDirectoryName(SettingPath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
             var json = JsonUtility.ToJson(settingData);
             File.WriteAllText(SettingPath, json);
         }
